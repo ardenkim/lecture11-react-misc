@@ -21,14 +21,15 @@ fido.bark( /*this = fido*/ ); //=> "Fido woofs"
 console.log('***This is Spot barking***');
 spot.bark( /*this = spot*/ ); //=> "Spot yips"
 
-// console.log("***This is Fido using Spot's bark***");
-// fido.bark = spot.bark; //assign the function
-// fido.bark( /*this = fido*/) //=> "fido yips"
+
+console.log("***This is Fido using Spot's bark***");
+fido.bark = spot.bark; //assign the function
+fido.bark( /*this = fido*/) //=> "fido yips"
 
 
-// console.log("***This is Fido using Spot's BOUND bark***");
-// fido.bark = spot.bark.bind(spot); //assign the function, but bind "spot" to the this
-// fido.bark( /*this = fido*/) //=> "Spot yips"
+console.log("***This is Fido using Spot's BOUND bark***");
+fido.bark = spot.bark.bind(spot); //assign the function, but bind "spot" to the this
+fido.bark( /*this = spot*/) //=> "Spot yips"
 //It's a ventriloquist dog!
 
 

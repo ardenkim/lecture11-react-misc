@@ -21,12 +21,140 @@ class PetApp extends React.Component {
   render() {
     //extract the breeds (thanks lodash!)
     var breeds = Object.keys(_.groupBy(this.state.pets, 'breed'));
+    console.log(breeds);
 
     return (
-      <h1>Adopt A Pet</h1>
+      <div>
+        <header className="well">
+          <div className="container">
+            <h1>Adopt a Pet</h1>
+          </div>
+        </header>
+        <main className="container">
+          <div className="row">
+            <div className="col-xs-3">
+              <Navigation breedList={breeds} /> {/*my own component */}
+            </div>
+            <div className="col-xs-9">
+              <DogAdoptions dogs={this.state.pets} /> {/*my own component */}
+            </div>
+          </div>
+        </main>
+        <footer className="container">
+          <small>Images from <a href="http://www.seattlehumane.org/adoption/dogs">Seattle Humane Society</a></small>
+        </footer>
+      </div>
     );
   }
 }
+
+class Navigation extends React.Component {
+  render() {
+    return (
+      <div>
+        <BreedList breeds={this.props.breedList}/>
+        {/* new BreedList(breeds = [...]) */}
+        <AboutLinks />
+      </div>
+    );
+  }  
+}
+
+class BreedList extends React.Component {
+  render() {
+
+    //for now
+    var theListOfBreeds = this.props.breeds;
+
+    var breedItemsArray = theListOfBreeds.map(function(breedStr){
+      return <li key={breedStr}><a>{breedStr}</a></li>;
+    })
+    //["Hound", "Mix", "Husky"]
+    // => [<li><a>Hound</a></li>, ...]
+
+    return (
+      <nav>
+        <h2>Pick a Breed</h2>
+        <ul className="list-unstyled">
+          {breedItemsArray}
+        </ul>            
+      </nav>      
+    );
+  }  
+}
+
+class AboutLinks extends React.Component {
+  render() {
+    return (
+      null
+    );
+  }  
+}
+
+class DogAdoptions extends React.Component {
+  render() {
+    //want to have a prop called "dogs"
+    var dogCardsArray = this.props.dogs.map(function(dogObj){
+      return <DogCard dog={dogObj} key={dogObj.name} />
+    });
+
+    return (
+      <div>
+        <h2>Dogs for Adoption</h2>
+        <div className="cards-container">
+          {dogCardsArray}
+        </div>
+      </div>
+    );
+  }  
+}
+
+class DogCard extends React.Component {
+  constructor(props){
+    super(props);
+
+    //`this` refers to this new card
+
+    //this.name = this.name.toUpperCase();
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    console.log('You clicked on', this.props.dog.name);
+  }
+
+  render() {
+
+    //want a variable this.props.dog
+
+    return (
+        <div className="card" onClick={this.handleClick}>
+          <div className="content">
+            <img src={this.props.dog.img} alt={this.props.dog.name} />
+            <h3>{this.props.dog.name}</h3>
+            <p>{this.props.dog.sex} {this.props.dog.breed}</p>
+          </div>
+        </div>
+    );
+  }  
+}
+
+
+/*
+  <App>
+    <Navigation>
+      <BreedList>
+      <AboutLinks>
+    </Navigation
+
+    <DogAdoptions>
+      <DogCard>
+      <DogCard>
+      <DogCard>
+      ...
+    </DogAdoptions>
+  </App>
+*/
 
 
 
